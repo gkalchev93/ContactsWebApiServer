@@ -28,10 +28,10 @@ namespace WebApiTestApplication.VisualElements
              this.Click += MouseClick;
              this.SelectionChanged += DisableSelection;
 
-             CreateRunLabel();
+             CreateContactLabel();
          }
         
-         void CreateRunLabel()
+         void CreateContactLabel()
          {
             this.BackColor = Color.LightGray;
             this.Text = $"  Id: {ContactObj.Id}\n  Name: {ContactObj.Name}\n  EGN:{ContactObj.Egn}\n  Address:{ContactObj.Address}\n  Telephone:{ContactObj.Telephone}";

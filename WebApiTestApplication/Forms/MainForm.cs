@@ -141,7 +141,10 @@ namespace WebApiTestApplication.Forms
             try
             {
                 var selectedItem = GetSelectedItem();
-                httpClient.DeleteContact(selectedItem.Id);
+                if(selectedItem != null)
+                {
+                    httpClient.DeleteContact(selectedItem.Id);
+                }
             }
             catch (Exception ex)
             {
