@@ -15,23 +15,62 @@ namespace WebApiCommunication
         public Client(string path)
         {
             httpClient = new HttpClient();
+            httpClient.Timeout = new TimeSpan(0, 0, 30);
             httpClient.BaseAddress = new Uri(path);
             httpClient.DefaultRequestHeaders.Accept.Clear();
-            httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         public async Task<Contact> GetContact(int id)
         {
-            Contact tmpObj = null;
+            Contact retObj = null;
 
-            HttpResponseMessage response = await httpClient.GetAsync($"/api/contacts/1");
+            HttpResponseMessage response = await httpClient.GetAsync($"api/Contacts/{id}").ConfigureAwait(false);
             if(response.IsSuccessStatusCode)
             {
-                var k = response.Content.ReadAsStringAsync();
-                tmpObj = await response.Content.ReadAsAsync<Contact>();
+                retObj = await response.Content.ReadAsAsync<Contact>();
             }
 
-            return tmpObj;
+            return retObj;
+        }
+
+        public async Task<Contact[]> GetContacts()
+        {
+            Contact[] retObj = null;
+
+            HttpResponseMessage response = await httpClient.GetAsync($"api/Contacts").ConfigureAwait(false);
+            if(response.IsSuccessStatusCode)
+            {
+                retObj = await response.Content.ReadAsAsync<Contact[]>();
+            }
+
+            return retObj;
+        }
+
+        public void CreateContact(Contact item)
+        {
+            var createTask = httpClient.PostAsJsonAsync($"api/Contacts", item);
+            createTask.Wait();
+            HttpResponseMessage response = createTask.Result;
+            response.EnsureSuccessStatusCode();
+        }
+
+        public void UpdateContact(Contact item)
+        {
+            var putTask = httpClient.PutAsJsonAsync($"api/Contacts/{item.Id}", item);
+            putTask.Wait();
+            HttpResponseMessage response = putTask.Result;
+            if (!response.IsSuccessStatusCode)
+                throw new Exception("Failed to update.");
+        }
+
+        public void DeleteContact(int id)
+        {
+            var deleteTask = httpClient.DeleteAsync($"api/Contacts/{id}");
+            deleteTask.Wait();
+            HttpResponseMessage response = deleteTask.Result;
+            response.EnsureSuccessStatusCode();
+        }
         }
     }
 }
