@@ -63,9 +63,11 @@ namespace WebApiTestApplication.Forms
                     contacts = getTask.Result;
                 }
                 
+                
                 panelView.Controls.Clear();
                 if(contacts != null)
                 {
+                    contacts = contacts.OrderBy(x => x.Name).ToArray();
                     foreach (var c in contacts)
                     {
                         panelView.Controls.Add(new ContactView(c));
