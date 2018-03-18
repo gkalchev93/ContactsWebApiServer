@@ -20,7 +20,7 @@ namespace WebApiTestApplication.VisualElements
 
              this.SelectionProtected = true;
              this.ReadOnly = true;
-             this.Size = new Size(360, 60);
+             this.Size = new Size(360, 70);
              this.BorderStyle = BorderStyle.None;
              this.MouseEnter += LabelHover;
              this.MouseLeave += LabelLeave;
@@ -34,7 +34,7 @@ namespace WebApiTestApplication.VisualElements
          void CreateRunLabel()
          {
             this.BackColor = Color.LightGray;
-            this.Text = $"  Name: {ContactObj.Name}\n  EGN:{ContactObj.Egn}\n  Address:{ContactObj.Address}\n  Telephone:{ContactObj.Telephone}";
+            this.Text = $"  Id: {ContactObj.Id}\n  Name: {ContactObj.Name}\n  EGN:{ContactObj.Egn}\n  Address:{ContactObj.Address}\n  Telephone:{ContactObj.Telephone}";
          }
 
 
