@@ -21,18 +21,45 @@ namespace WebApiServer.Controllers
         {
             return db.Contacts;
         }
-
-        // GET: api/Contacts/5
-        [ResponseType(typeof(Contact))]
-        public Contact GetContact(int id)
+        
+        public IQueryable<Contact> GetContactsByName(string name, bool contains)
         {
-            Contact contact = db.Contacts.Find(id);
-            if (contact == null)
-            {
-                return null;
-            }
+            if (contains)
+                return db.Contacts.Where(x => x.Name.Contains(name));
+            else
+                return db.Contacts.Where(x => x.Name == name);
+        }
 
-            return contact;
+        public IQueryable<Contact> GetContactsByEgn(string egn, bool contains)
+        {
+            if (contains)
+                return db.Contacts.Where(x => x.Egn.Contains(egn));
+            else
+                return db.Contacts.Where(x => x.Egn == egn);
+        }
+
+        public IQueryable<Contact> GetContactsByAddress(string adr, bool contains)
+        {
+            if (contains)
+                return db.Contacts.Where(x => x.Address.Contains(adr));
+            else
+                return db.Contacts.Where(x => x.Address == adr);
+        }
+
+        public IQueryable<Contact> GetContactsByTelephone(string tel, bool contains)
+        {
+            if (contains)
+                return db.Contacts.Where(x => x.Telephone.Contains(tel));
+            else
+                return db.Contacts.Where(x => x.Telephone == tel);
+        }
+        
+        public IQueryable<Contact> GetContactsById(int id, bool contains)
+        {
+            if(contains)
+                return db.Contacts.Where(x => x.Id.ToString().Contains(id.ToString()));
+            else
+                return db.Contacts.Where(x => x.Id == id);
         }
 
         // PUT: api/Contacts/5

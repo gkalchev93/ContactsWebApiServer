@@ -24,6 +24,7 @@ namespace WebApiTestApplication.Forms
         private void MainForm_Load(object sender, EventArgs e)
         {
             httpClient = new Client(@"http://localhost:65366/");
+            cbSearchField.SelectedIndex = 0;
             RefreshContacts();
         }
 
@@ -50,18 +51,27 @@ namespace WebApiTestApplication.Forms
             }
         }
 
-        private void RefreshContacts()
+        Contact[] contacts;
+        private void RefreshContacts(bool all = true)
         {
             try
             {
-                var getTask = httpClient.GetContacts();
-                getTask.Wait();
-                var contacts = getTask.Result;
-                panelView.Controls.Clear();
-                foreach (var c in contacts)
+                if(all)
                 {
-                    panelView.Controls.Add(new ContactView(c));
+                    var getTask = httpClient.GetContacts();
+                    getTask.Wait();
+                    contacts = getTask.Result;
                 }
+                
+                panelView.Controls.Clear();
+                if(contacts != null)
+                {
+                    foreach (var c in contacts)
+                    {
+                        panelView.Controls.Add(new ContactView(c));
+                    }
+                }
+                
                 panelView.Update();
             }
             catch (Exception ex)
@@ -158,20 +168,71 @@ namespace WebApiTestApplication.Forms
 
         private void tbSearchValue_TextChanged(object sender, EventArgs e)
         {
-            if (cbContains.Checked)
+            try
             {
-                switch (cbSearchField.SelectedIndex)
+                if (string.IsNullOrEmpty(tbSearchValue.Text))
                 {
-
+                    RefreshContacts();
                 }
-
+                else
+                {
+                    switch (cbSearchField.SelectedIndex)
+                    {
+                        case 0:
+                            GetContactsById();
+                            break;
+                        case 1:
+                            GetContactsByName();
+                            break;
+                        case 2:
+                            GetContactsByEgn();
+                            break;
+                        case 3:
+                            GetContactsByAddress();
+                            break;
+                        case 4:
+                            GetContactsByTelephone();
+                            break;
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                switch (cbSearchField.SelectedIndex)
-                {
+                MessageBox.Show(ex.Message, "Warning");
+                RefreshContacts(true);
+            }
+        }
 
-                }
+        private async void GetContactsByName()
+        {
+            contacts = await httpClient.GetContactsByName(tbSearchValue.Text, !checkMatch.Checked);
+            RefreshContacts(false);
+        }
+
+        private async void GetContactsByEgn()
+        {
+            contacts = await httpClient.GetContactsByEgn(tbSearchValue.Text, !checkMatch.Checked);
+            RefreshContacts(false);
+        }
+
+        private async void GetContactsByAddress()
+        {
+            contacts = await httpClient.GetContactsByAddress(tbSearchValue.Text, !checkMatch.Checked);
+            RefreshContacts(false);
+        }
+
+        private async void GetContactsByTelephone()
+        {
+            contacts = await httpClient.GetContactsByTelephone(tbSearchValue.Text, !checkMatch.Checked);
+            RefreshContacts(false);
+        }
+
+        private async void GetContactsById()
+        {
+            if(Int32.TryParse(tbSearchValue.Text, out int id))
+            {
+                contacts = await httpClient.GetContactsById(id, !checkMatch.Checked);
+                RefreshContacts(false);
             }
         }
     }

@@ -32,14 +32,14 @@
             this.menuAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.menuEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.panelView = new System.Windows.Forms.FlowLayoutPanel();
             this.menuRefresh = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSearch = new System.Windows.Forms.ToolStripMenuItem();
+            this.panelView = new System.Windows.Forms.FlowLayoutPanel();
             this.cbSearchField = new System.Windows.Forms.ComboBox();
             this.tbSearchValue = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.menuSearch = new System.Windows.Forms.ToolStripMenuItem();
-            this.cbContains = new System.Windows.Forms.CheckBox();
+            this.checkMatch = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -78,6 +78,20 @@
             this.menuDelete.Text = "Delete";
             this.menuDelete.Click += new System.EventHandler(this.menuDelete_Click);
             // 
+            // menuRefresh
+            // 
+            this.menuRefresh.Name = "menuRefresh";
+            this.menuRefresh.Size = new System.Drawing.Size(58, 20);
+            this.menuRefresh.Text = "Refresh";
+            this.menuRefresh.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
+            // 
+            // menuSearch
+            // 
+            this.menuSearch.Name = "menuSearch";
+            this.menuSearch.Size = new System.Drawing.Size(88, 20);
+            this.menuSearch.Text = "Search Mode";
+            this.menuSearch.Click += new System.EventHandler(this.menuSearch_Click);
+            // 
             // panelView
             // 
             this.panelView.AutoScroll = true;
@@ -87,13 +101,6 @@
             this.panelView.Size = new System.Drawing.Size(385, 411);
             this.panelView.TabIndex = 1;
             this.panelView.WrapContents = false;
-            // 
-            // menuRefresh
-            // 
-            this.menuRefresh.Name = "menuRefresh";
-            this.menuRefresh.Size = new System.Drawing.Size(58, 20);
-            this.menuRefresh.Text = "Refresh";
-            this.menuRefresh.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // cbSearchField
             // 
@@ -135,29 +142,22 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "Search text:";
             // 
-            // menuSearch
+            // checkMatch
             // 
-            this.menuSearch.Name = "menuSearch";
-            this.menuSearch.Size = new System.Drawing.Size(88, 20);
-            this.menuSearch.Text = "Search Mode";
-            this.menuSearch.Click += new System.EventHandler(this.menuSearch_Click);
-            // 
-            // cbContains
-            // 
-            this.cbContains.AutoSize = true;
-            this.cbContains.Location = new System.Drawing.Point(551, 50);
-            this.cbContains.Name = "cbContains";
-            this.cbContains.Size = new System.Drawing.Size(67, 17);
-            this.cbContains.TabIndex = 5;
-            this.cbContains.Text = "Contains";
-            this.cbContains.UseVisualStyleBackColor = true;
+            this.checkMatch.AutoSize = true;
+            this.checkMatch.Location = new System.Drawing.Point(530, 50);
+            this.checkMatch.Name = "checkMatch";
+            this.checkMatch.Size = new System.Drawing.Size(75, 17);
+            this.checkMatch.TabIndex = 5;
+            this.checkMatch.Text = "Full Match";
+            this.checkMatch.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(403, 450);
-            this.Controls.Add(this.cbContains);
+            this.Controls.Add(this.checkMatch);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tbSearchValue);
@@ -191,7 +191,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolStripMenuItem menuSearch;
-        private System.Windows.Forms.CheckBox cbContains;
+        private System.Windows.Forms.CheckBox checkMatch;
     }
 }
 

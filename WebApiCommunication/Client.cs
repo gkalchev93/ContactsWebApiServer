@@ -21,19 +21,6 @@ namespace WebApiCommunication
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<Contact> GetContact(int id)
-        {
-            Contact retObj = null;
-
-            HttpResponseMessage response = await httpClient.GetAsync($"api/Contacts/{id}").ConfigureAwait(false);
-            if(response.IsSuccessStatusCode)
-            {
-                retObj = await response.Content.ReadAsAsync<Contact>();
-            }
-
-            return retObj;
-        }
-
         public async Task<Contact[]> GetContacts()
         {
             Contact[] retObj = null;
@@ -71,6 +58,70 @@ namespace WebApiCommunication
             HttpResponseMessage response = deleteTask.Result;
             response.EnsureSuccessStatusCode();
         }
+
+        public async Task<Contact[]> GetContactsByName(string name, bool contains)
+        {
+            Contact[] retObj = null;
+
+            HttpResponseMessage response = await httpClient.GetAsync($"api/Contacts?name={name}&contains={contains}").ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                retObj = await response.Content.ReadAsAsync<Contact[]>();
+            }
+
+            return retObj;
+        }
+
+        public async Task<Contact[]> GetContactsByEgn(string egn, bool contains)
+        {
+            Contact[] retObj = null;
+
+            HttpResponseMessage response = await httpClient.GetAsync($"api/Contacts?egn={egn}&contains={contains}").ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                retObj = await response.Content.ReadAsAsync<Contact[]>();
+            }
+
+            return retObj;
+        }
+
+        public async Task<Contact[]> GetContactsByAddress(string adr, bool contains)
+        {
+            Contact[] retObj = null;
+
+            HttpResponseMessage response = await httpClient.GetAsync($"api/Contacts?adr={adr}&contains={contains}").ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                retObj = await response.Content.ReadAsAsync<Contact[]>();
+            }
+
+            return retObj;
+        }
+
+        public async Task<Contact[]> GetContactsByTelephone(string tel, bool contains)
+        {
+            Contact[] retObj = null;
+
+            HttpResponseMessage response = await httpClient.GetAsync($"api/Contacts?tel={tel}&contains={contains}").ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                retObj = await response.Content.ReadAsAsync<Contact[]>();
+            }
+
+            return retObj;
+        }
+
+        public async Task<Contact[]> GetContactsById(int id, bool contains)
+        {
+            Contact[] retObj = null;
+
+            HttpResponseMessage response = await httpClient.GetAsync($"api/Contacts/{id}?contains={contains}").ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                retObj = await response.Content.ReadAsAsync<Contact[]>();
+            }
+
+            return retObj;
         }
     }
 }
